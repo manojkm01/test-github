@@ -1,0 +1,32 @@
+name: JFrog CLI Configuration Show
+
+on:
+  workflow_dispatch:  # Run manually from the Actions tab
+
+jobs:
+  jfrog-config-show:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up JFrog CLI
+        run: |
+          curl -fL https://install-cli.jfrog.io | sh
+          jf --version
+
+      - name: Configure JFrog CLI
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_USER: ${{ secrets.JF_USER }}
+          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+        run: |
+          echo "Configuring JFrog CLI..."
+          jf c add default \
+            --url="$JF_URL" \
+            --user="$JF_USER" \
+            --password="$JF_PASSWORD" \
+            --interactive=false
+
+      - name: Show JFrog CLI configuration
+        run: |
+          echo "Showing JFrog CLI configurations..."
+          jf c show
