@@ -30,3 +30,5 @@ jobs:
         run: |
           echo "Showing JFrog CLI configurations..."
           jf c show
+          jf rt ping
+          jf rt curl -XGET /api/repositories
